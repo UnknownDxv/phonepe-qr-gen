@@ -123,7 +123,9 @@
                     main.classList.remove('hidden');
                     footer.classList.remove('hidden');
                     generateBtn.style.display = 'inline-block';
-                    generateQR();
+                    setInterval(() => {
+    generateQR();
+}, 5000);
                     window.addEventListener('offline', () => {
                         alert("⚠️ Internet disconnected! Please reconnect to continue.");
                         location.reload();
