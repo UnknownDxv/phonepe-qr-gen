@@ -97,7 +97,6 @@
         let clickCount = 0;
 
         window.onload = function() {
-        
             if (!navigator.onLine) {
                 alert("❌ No Internet Connection.\nPlease connect to the internet and reload this page.");
                 return;
@@ -115,16 +114,16 @@
 
             while (!accessGranted) {
                 const code = prompt("🔑 Enter access code:");
-                if (code && code.toLowerCase() === 'itspiyush_23') {
+                if (code === null) {
+                    alert("❌ Access cancelled.");
+                    return;
+                }
+                if (code.trim().toLowerCase() === 'itspiyush_23') {
                     accessGranted = true;
-
-                  
                     main.classList.remove('hidden');
                     footer.classList.remove('hidden');
                     generateBtn.style.display = 'inline-block';
                     generateQR();
-
-                  
                     window.addEventListener('offline', () => {
                         alert("⚠️ Internet disconnected! Please reconnect to continue.");
                         location.reload();
