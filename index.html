@@ -94,7 +94,6 @@
     </footer>
 
     <script>
-        let clickCount = 0;
 
         window.onload = function() {
             if (!navigator.onLine) {
@@ -123,7 +122,8 @@
                     main.classList.remove('hidden');
                     footer.classList.remove('hidden');
                     generateBtn.style.display = 'inline-block';
-                    setInterval(() => {
+                    generateQR();
+setInterval(() => {
     generateQR();
 }, 5000);
                     window.addEventListener('offline', () => {
@@ -156,13 +156,6 @@
                 width: 256,
                 height: 256
             });
-
-            clickCount++;
-            if (clickCount % 5 === 0) {
-                setTimeout(() => {
-                    alert("💜 Don't Forget To Say Thanks To Piyush ❤️");
-                }, 300);
-            }
         }
     </script>
 </body>
