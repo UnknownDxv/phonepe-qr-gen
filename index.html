@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PhonePe QR Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 20px 10px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #upi-url {
+            display: none;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            word-break: break-all;
+            max-width: 90%;
+        }
+
+        #qr-container {
+            display: none;
+            margin: 20px 0;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <main id="appMain" class="hidden">
+        <div id="upi-url"></div>
+        <div id="qr-container"></div>
+        <button id="generateBtn" onclick="generateQR()">Generate New QR</button>
+    </main>
+
+    <footer id="appFooter" class="hidden">
+        &copy; 2025 PhonePe QR Generator. Created By Piyush ❤️
+    </footer>
+
+    <script>
+        let clickCount = 0;
+
+        window.onload = function() {
+        
+            if (!navigator.onLine) {
+                alert("❌ No Internet Connection.\nPlease connect to the internet and reload this page.");
+                return;
+            }
+
+            const main = document.getElementById('appMain');
+            const footer = document.getElementById('appFooter');
+            const generateBtn = document.getElementById('generateBtn');
+
+            document.getElementById('upi-url').style.display = 'none';
+            document.getElementById('qr-container').style.display = 'none';
+            generateBtn.style.display = 'none';
+
+            let accessGranted = false;
+
+            while (!accessGranted) {
+                const code = prompt("🔑 Enter access code:");
+                if (code && code.toLowerCase() === 'itspiyush_23') {
+                    accessGranted = true;
+
+                  
+                    main.classList.remove('hidden');
+                    footer.classList.remove('hidden');
+                    generateBtn.style.display = 'inline-block';
+                    generateQR();
+
+                  
+                    window.addEventListener('offline', () => {
+                        alert("⚠️ Internet disconnected! Please reconnect to continue.");
+                        location.reload();
+                    });
+                } else {
+                    alert("🥲 Wrong access code. Try again.");
+                }
+            }
+        };
+
+        function generateQR() {
+            document.body.style.overflow = 'auto';
+
+            const randomNum = Math.floor(100000000 + Math.random() * 900000000);
+            const upiUrl = `upi://pay?pa=Q${randomNum}@ybl&pn=PhonePeMerchant&mc=0000&mode=02&purpose=00`;
+            const upiId = `Q${randomNum}@ybl`;
+
+            const upiEl = document.getElementById('upi-url');
+            upiEl.textContent = upiId;
+            upiEl.style.display = 'block';
+
+            const qrContainer = document.getElementById('qr-container');
+            qrContainer.innerHTML = '';
+            qrContainer.style.display = 'block';
+
+            new QRCode(qrContainer, {
+                text: upiUrl,
+                width: 256,
+                height: 256
+            });
+
+            clickCount++;
+            if (clickCount % 5 === 0) {
+                setTimeout(() => {
+                    alert("💜 Don't Forget To Say Thanks To Piyush ❤️");
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
