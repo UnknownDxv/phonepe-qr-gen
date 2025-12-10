@@ -36,7 +36,7 @@
         }
 
         button {
-            background-color: #28a745;
+            background-color: #16e004;
             color: white;
             border: none;
             padding: 15px 30px;
@@ -49,7 +49,19 @@
         }
 
         button:hover {
-            background-color: #218838;
+            background-color: #13c403;
+        }
+
+        #note-box {
+           background-color: #ffff00; 
+           color: red;
+           padding: 12px;
+           border-radius: 8px;
+           font-size: 15px;
+           font-style: italic;
+           font-weight: 500;
+           margin-bottom: 15px;
+           max-width: 90%;
         }
 
         #upi-url {
@@ -84,13 +96,18 @@
 </head>
 <body>
     <main id="appMain" class="hidden">
+        <div id="note-box">
+            Note: Some QRs may already be used or invalid. Click the "Generate New QR" button for a new one, 
+            otherwise a new QR will automatically generate every 5 seconds.
+        </div>
+
         <div id="upi-url"></div>
         <div id="qr-container"></div>
         <button id="generateBtn" onclick="generateQR()">Generate New QR</button>
     </main>
 
     <footer id="appFooter" class="hidden">
-        &copy; 2025 PhonePe QR Generator. Created By Piyush ❤️
+        &copy; Created By Piyush ❤️
     </footer>
 
     <script>
@@ -123,9 +140,11 @@
                     footer.classList.remove('hidden');
                     generateBtn.style.display = 'inline-block';
                     generateQR();
-setInterval(() => {
-    generateQR();
-}, 5000);
+
+                    setInterval(() => {
+                        generateQR();
+                    }, 5000);
+
                     window.addEventListener('offline', () => {
                         alert("⚠️ Internet disconnected! Please reconnect to continue.");
                         location.reload();
